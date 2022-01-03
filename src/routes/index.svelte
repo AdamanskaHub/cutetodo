@@ -8,15 +8,15 @@
 		let { data, error } = await supabase.from('todos').select('*');
 		todos = data;
 	});
-	const updateTodo = (todo) => {
-		// try {
-		// 	const { data, error } = await supabase
-		// 		.from('todos')
-		// 		.update({ task: todo.task })
-		// 		.eq('id', 'todo.id');
-		// } catch (err) {
-		// 	console.log(err);
-		// }
+	const updateTodo = async (todo) => {
+		try {
+			const { data, error } = await supabase
+				.from('todos')
+				.update({ task: todo.task })
+				.eq('id', todo.id);
+		} catch (err) {
+			console.log(err);
+		}
 		console.table(todo);
 	};
 </script>
