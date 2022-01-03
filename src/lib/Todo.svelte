@@ -1,9 +1,16 @@
 <script>
-	export let todo, updateTodo;
+	export let todo, updateTodo, deleteTodo;
 </script>
 
 <div class="todos">
-	<input type="checkbox" checked={todo.isComplete} />
+	<input
+		type="checkbox"
+		checked={todo.isComplete}
+		on:change={(e) => {
+			todo.isComplete = e.currentTarget.checked;
+			updateTodo(todo);
+		}}
+	/>
 	<input
 		type="text"
 		value={todo.task}
@@ -12,7 +19,7 @@
 			updateTodo(todo);
 		}}
 	/>
-	<button> Delete </button>
+	<button on:click={() => deleteTodo(todo)}> Delete </button>
 </div>
 
 <style>

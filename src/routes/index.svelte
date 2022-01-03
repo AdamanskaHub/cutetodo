@@ -5,15 +5,35 @@
 
 	let todos = ['hfeiwh'];
 	onMount(async () => {
-		let { data, error } = await supabase.from('todos').select('*');
-		todos = data;
+		getallTodos();
 	});
+
+	const getallTodos = async () => {
+		try {
+			let { data, error } = await supabase.from('todos').select('*');
+			todos = data;
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	const updateTodo = async (todo) => {
 		try {
 			const { data, error } = await supabase
 				.from('todos')
-				.update({ task: todo.task })
+				.update({ task: todo.task, isComplete: todo.isComplete })
 				.eq('id', todo.id);
+			await getallTodos();
+		} catch (err) {
+			console.log(err);
+		}
+		console.table(todo);
+	};
+
+	const deleteTodo = async (todo) => {
+		try {
+			const { data, error } = await supabase.from('todos').delete().eq('id', todo.id);
+			await getallTodos();
 		} catch (err) {
 			console.log(err);
 		}
@@ -22,7 +42,7 @@
 </script>
 
 {#each todos as todo}
-	<Todo {todo} {updateTodo} />
+	<Todo {todo} {updateTodo} {deleteTodo} />
 {:else}
 	<p>no tasks</p>
 {/each}
