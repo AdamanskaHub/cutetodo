@@ -2,7 +2,8 @@
 	export let todo, updateTodo, deleteTodo;
 </script>
 
-<div class="todos">
+<div class="todos" class:done={todo.isComplete}>
+	<!-- if todo is complete adds call done -->
 	<input
 		type="checkbox"
 		checked={todo.isComplete}
