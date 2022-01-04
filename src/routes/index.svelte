@@ -2,6 +2,8 @@
 	import supabase from '$lib/db';
 	import { onMount } from 'svelte';
 	import Todo from '$lib/Todo.svelte';
+	import { user } from '$lib/stores';
+	import { goto } from '$app/navigation';
 
 	let newTask = '';
 
@@ -59,7 +61,15 @@
 			addTodo();
 		}
 	};
+
+	const logout = async () => {
+		let { error } = await supabase.auth.signOut();
+		$user = false;
+		goto('/login');
+	};
 </script>
+
+<h3>Welcome {$user?.email ? $user.email : ''}</h3>
 
 <div class="add-todo">
 	<input type="text" bind:value={newTask} />
@@ -72,11 +82,20 @@
 	<p>no tasks</p>
 {/each}
 
+{#if $user.email}
+	<button class="logout" on:click={logout}>Logout</button>
+{/if}
+
 <svelte:window on:keypress={handleEnter} />
 
 <style>
 	.add-todo {
 		display: flex;
 		margin-bottom: 40px;
+	}
+	.logout {
+		background: none;
+		border: none;
+		text-decoration: underline;
 	}
 </style>
