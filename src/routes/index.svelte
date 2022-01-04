@@ -83,7 +83,7 @@
 {/each}
 
 {#if $user.email}
-	<button class="logout" on:click={logout}>Logout</button>
+	<button class="little-link" on:click={logout}>Logout</button>
 {/if}
 
 <svelte:window on:keypress={handleEnter} />
@@ -93,9 +93,16 @@
 		display: flex;
 		margin-bottom: 40px;
 	}
-	.logout {
+	:global(.little-link) {
 		background: none;
 		border: none;
 		text-decoration: underline;
+		cursor: pointer;
+	}
+	.little-link {
+		background: none;
+		border: none;
+		text-decoration: underline;
+		cursor: pointer;
 	}
 </style>
