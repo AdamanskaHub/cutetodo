@@ -28,4 +28,10 @@
 		display: flex;
 		margin-bottom: 10px;
 	}
+	.done {
+		opacity: 0.5;
+	}
+	.done input[type='text'] {
+		text-decoration: line-through;
+	}
 </style>
