@@ -8,8 +8,9 @@
 
 	let newTask = '';
 	let taskCount = 0;
+	let today = new Date().toLocaleDateString();
 
-	let todos = ['hfeiwh'];
+	let todos = [''];
 	onMount(async () => {
 		getallTodos();
 	});
@@ -73,7 +74,7 @@
 </script>
 
 <h3>Welcome {$user?.email ? $user.email : ''}</h3>
-<p>{taskCount}</p>
+<p>{taskCount} and today is {today}</p>
 
 <div class="add-todo">
 	<input type="text" bind:value={newTask} />
