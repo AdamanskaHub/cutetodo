@@ -28,7 +28,7 @@
 		try {
 			const { data, error } = await supabase
 				.from('todos')
-				.insert([{ task: newTask, isComplete: false, user_id: $user.id }]);
+				.insert([{ task: newTask, isComplete: false, user_id: $user.id, date: today }]);
 			await getallTodos();
 			newTask = '';
 		} catch (err) {
@@ -93,7 +93,7 @@
 
 <svelte:window on:keypress={handleEnter} />
 
-<Character {taskCount} />
+<Character {taskCount} {todos} />
 
 <style>
 	.add-todo {

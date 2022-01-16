@@ -1,8 +1,11 @@
 <script>
-	export let taskCount;
+	export let taskCount, todos;
 </script>
 
-<p>nicehcu</p>
+{#if todos[0]}
+	<p>date of 1st todo {todos[0].date}</p>
+{/if}
+
 {#if taskCount === 0}
 	<p>task 0</p>
 {:else if taskCount === 1}
