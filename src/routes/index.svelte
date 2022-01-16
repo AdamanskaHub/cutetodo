@@ -2,10 +2,12 @@
 	import supabase from '$lib/db';
 	import { onMount } from 'svelte';
 	import Todo from '$lib/Todo.svelte';
+	import Character from '../Character.svelte';
 	import { user } from '$lib/stores';
 	import { goto } from '$app/navigation';
 
 	let newTask = '';
+	let taskCount = 0;
 
 	let todos = ['hfeiwh'];
 	onMount(async () => {
@@ -25,7 +27,7 @@
 		try {
 			const { data, error } = await supabase
 				.from('todos')
-				.insert([{ task: newTask, isComplete: false }]);
+				.insert([{ task: newTask, isComplete: false, user_id: $user.id }]);
 			await getallTodos();
 			newTask = '';
 		} catch (err) {
@@ -40,6 +42,7 @@
 				.update({ task: todo.task, isComplete: todo.isComplete })
 				.eq('id', todo.id);
 			await getallTodos();
+			taskCount++;
 		} catch (err) {
 			console.log(err);
 		}
@@ -70,6 +73,7 @@
 </script>
 
 <h3>Welcome {$user?.email ? $user.email : ''}</h3>
+<p>{taskCount}</p>
 
 <div class="add-todo">
 	<input type="text" bind:value={newTask} />
@@ -87,6 +91,8 @@
 {/if}
 
 <svelte:window on:keypress={handleEnter} />
+
+<Character {taskCount} />
 
 <style>
 	.add-todo {
