@@ -2,6 +2,7 @@
 	export let taskCount, todos;
 </script>
 
+<div class="bombRightOut">jgiurhge</div>
 {#if todos[0]}
 	<p>date of 1st todo {todos[0].date}</p>
 {/if}
