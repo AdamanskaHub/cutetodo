@@ -1,8 +1,11 @@
 <script>
-	export let todo, updateTodo, deleteTodo;
+	export let todo, updateTodo, deleteTodo, today;
+	import { blur, crossfade, draw, fade, fly, scale, slide } from 'svelte/transition';
 </script>
 
-<div class="todos" class:done={todo.isComplete}>
+<div class="todos" class:done={todo.isComplete} transition:slide={{ duration: 350 }}>
+	<!-- transition:fly={{ x: 30 }} -->
+
 	<!-- if todo is complete adds call done -->
 	<input
 		type="checkbox"
@@ -20,6 +23,7 @@
 			updateTodo(todo);
 		}}
 	/>
+	<p>{today == todo.date ? 'today' : 'overdue'}</p>
 	<button on:click={() => deleteTodo(todo)}> Delete </button>
 </div>
 

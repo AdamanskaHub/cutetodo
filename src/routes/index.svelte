@@ -8,6 +8,7 @@
 
 	let newTask = '';
 	let taskCount = 0;
+	let todayTaskCount = 0;
 	let today = new Date().toLocaleDateString();
 
 	let todos = [''];
@@ -57,7 +58,7 @@
 		} catch (err) {
 			console.log(err);
 		}
-		console.table(todo);
+		console.table('finished delete' + todo);
 	};
 
 	const handleEnter = (e) => {
@@ -82,7 +83,7 @@
 </div>
 
 {#each todos as todo}
-	<Todo {todo} {updateTodo} {deleteTodo} />
+	<Todo {todo} {updateTodo} {deleteTodo} {today} />
 {:else}
 	<p>no tasks</p>
 {/each}
