@@ -19,6 +19,7 @@
 	const getallTodos = async () => {
 		try {
 			let { data, error } = await supabase.from('todos').select('*');
+			todos.sort((a, b) => a.id - b.id);
 			todos = data;
 		} catch (err) {
 			console.log(err);
@@ -31,6 +32,7 @@
 				.from('todos')
 				.insert([{ task: newTask, isComplete: false, user_id: $user.id, date: today }]);
 			await getallTodos();
+
 			newTask = '';
 		} catch (err) {
 			console.log(err);
@@ -44,6 +46,7 @@
 				.update({ task: todo.task, isComplete: todo.isComplete })
 				.eq('id', todo.id);
 			await getallTodos();
+
 			taskCount++;
 		} catch (err) {
 			console.log(err);
