@@ -5,17 +5,16 @@
 	let isDeleted = false;
 </script>
 
-<div
-	class={isDeleted ? 'todos deletor' : 'todos'}
-	class:done={todo.isComplete}
-	transition:slide={{ duration: 350 }}
->
+<div class={isDeleted ? 'todos deletor' : 'todos'} class:done={todo.isComplete}>
+	<!-- transition:slide={{ duration: 350 }} -->
+
 	<!-- transition:fly={{ x: 30 }} -->
 
 	<!-- if todo is complete adds call done -->
 	<input
 		type="checkbox"
 		checked={todo.isComplete}
+		disabled={todo.isComplete}
 		on:change={(e) => {
 			todo.isComplete = e.currentTarget.checked;
 			updateTodo(todo);
@@ -35,16 +34,19 @@
 	<button
 		class="btn-delete"
 		on:click={() => {
-			(isDeleted = true),
-				setTimeout(() => {
-					deleteTodo(todo);
-				}, 1000);
+			deleteTodo(todo);
 		}}
 	>
 		Delete
 	</button>
 </div>
 
+<!-- on:click={() => {
+	(isDeleted = true),
+		setTimeout(() => {
+			deleteTodo(todo);
+		}, 1000);
+}} -->
 <style>
 	.todos {
 		display: flex;

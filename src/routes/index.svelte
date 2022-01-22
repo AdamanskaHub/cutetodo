@@ -19,7 +19,23 @@
 	const getallTodos = async () => {
 		try {
 			let { data, error } = await supabase.from('todos').select('*');
-			todos.sort((a, b) => a.id - b.id);
+			todos = data;
+			// console.log(data);
+			// data.sort((a, b) => a.id - b.id);
+			console.log(data);
+			reorder();
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	const reorder = async () => {
+		try {
+			let { data, error } = await supabase
+				.from('todos')
+				.select('*')
+				.order('id', { ascending: false });
+			console.log(data);
 			todos = data;
 		} catch (err) {
 			console.log(err);
@@ -51,7 +67,7 @@
 		} catch (err) {
 			console.log(err);
 		}
-		console.table(todo);
+		today == todo.date ? todayTaskCount++ : console.table(todo);
 	};
 
 	const deleteTodo = async (todo) => {
@@ -78,7 +94,7 @@
 </script>
 
 <h3>Welcome {$user?.email ? $user.email : ''}</h3>
-<p>{taskCount} and today is {today}</p>
+<p>taskcount: {taskCount} and today tasks count {todayTaskCount}</p>
 
 <div class="add-todo">
 	<input type="text" bind:value={newTask} />
