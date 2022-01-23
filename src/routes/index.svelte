@@ -5,6 +5,7 @@
 	import Character from '../Character.svelte';
 	import { user } from '$lib/stores';
 	import { goto } from '$app/navigation';
+	import Rocket from '../../static/rocket.svelte';
 
 	let newTask = '';
 	let taskCount = 0;
@@ -164,7 +165,9 @@
 
 <div class="add-todo">
 	<input type="text" bind:value={newTask} />
-	<button on:click={() => addTodo(newTask)}> Add task </button>
+	<button on:click={() => addTodo(newTask)}>
+		<Rocket />
+	</button>
 </div>
 
 {#each todos as todo}
@@ -182,6 +185,18 @@
 <Character {taskCount} {todos} />
 
 <style>
+	:root {
+		--color1: #74b29d;
+		--color2: #a5dfd3;
+		--color3: #eefed4;
+		--color4: #f8e396;
+		--color5: #ee7ea0;
+	}
+	:global(body) {
+		min-height: 100vh;
+		background: var(--color2);
+		background-image: linear-gradient(var(--color1), var(--color2));
+	}
 	.add-todo {
 		display: flex;
 		margin-bottom: 40px;
