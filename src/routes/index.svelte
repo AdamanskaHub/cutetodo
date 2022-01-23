@@ -67,7 +67,6 @@
 		} catch (err) {
 			console.log(err);
 		}
-		today == todo.date ? todayTaskCount++ : console.table(todo);
 	};
 
 	const deleteTodo = async (todo) => {
@@ -96,7 +95,7 @@
 
 	onMount(() => {
 		console.log('Mounting');
-		updateCookie();
+		createCookie();
 	});
 
 	function checkCookie(cookieName) {
@@ -118,16 +117,32 @@
 	}
 
 	const updateCookie = () => {
+		console.log('update cookie');
 		var ttc = checkCookie('todayTaskCount');
-		console.log('ttc ' + ttc);
-		todayTaskCountShow = ttc;
 		if (ttc != '') {
 			let newCount = parseInt(ttc) + 1;
-			document.cookie = 'todayTaskCount' + '=' + newCount;
+			document.cookie = 'todayTaskCount' + '=' + newCount + ';SameSite=Lax';
 			console.log('increase ' + document.cookie);
+			todayTaskCountShow = newCount;
 		}
 		//if ttc is null
-		else {
+		// else {
+		// 	console.log('creating cookie'); //if ttc is not then add one
+		// 	var date = new Date();
+		// 	date.setTime(date.getTime() + 1 * 24 * 60 * 60 * 1000);
+		// 	var expires = ';expires=' + date.toUTCString();
+		// 	document.cookie = 'todayTaskCount' + '=' + 0 + expires + ';path=/' + ';SameSite=Lax';
+		// 	console.log('created cookie ' + document.cookie);
+
+		// 	//set cookie
+		// 	if (ttc != '' && ttc != null) {
+		// 		console.log('???');
+		// 	}
+		// }
+	};
+	const createCookie = () => {
+		var ttc = checkCookie('todayTaskCount');
+		if (ttc == '' || ttc == null) {
 			console.log('creating cookie'); //if ttc is not then add one
 			var date = new Date();
 			date.setTime(date.getTime() + 1 * 24 * 60 * 60 * 1000);
@@ -144,14 +159,9 @@
 </script>
 
 <h3>Welcome {$user?.email ? $user.email : ''}</h3>
-<p>
-	taskcount: {taskCount} and today tasks count
-</p>
-{#if todayTaskCountShow}
-	<p>{todayTaskCountShow}</p>
-{:else}
-	<p>else</p>
-{/if}
+
+<p>today tasks count IS {todayTaskCountShow}</p>
+
 <div class="add-todo">
 	<input type="text" bind:value={newTask} />
 	<button on:click={() => addTodo(newTask)}> Add task </button>
@@ -170,8 +180,6 @@
 <svelte:window on:keypress={handleEnter} />
 
 <Character {taskCount} {todos} />
-
-<button on:click={updateCookie}>display count</button>
 
 <style>
 	.add-todo {
