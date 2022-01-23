@@ -8,7 +8,7 @@
 
 	let newTask = '';
 	let taskCount = 0;
-	let todayTaskCount = 0;
+	let todayTaskCountShow = 0;
 	let today = new Date().toLocaleDateString();
 
 	let todos = [''];
@@ -63,7 +63,7 @@
 				.eq('id', todo.id);
 			await getallTodos();
 
-			taskCount++;
+			updateCookie();
 		} catch (err) {
 			console.log(err);
 		}
@@ -91,11 +91,67 @@
 		$user = false;
 		goto('/login');
 	};
+
+	// ==== COOKIES =====
+
+	onMount(() => {
+		console.log('Mounting');
+		updateCookie();
+	});
+
+	function checkCookie(cookieName) {
+		console.log('checking cookie');
+		let name = cookieName + '=';
+		let spli = document.cookie.split(';');
+		for (var j = 0; j < spli.length; j++) {
+			let char = spli[j];
+			while (char.charAt(0) == ' ') {
+				char = char.substring(1);
+			}
+			if (char.indexOf(name) == 0) {
+				console.log(char.substring(name.length, char.length));
+				return char.substring(name.length, char.length);
+			}
+		}
+		console.log('empty');
+		return '';
+	}
+
+	const updateCookie = () => {
+		var ttc = checkCookie('todayTaskCount');
+		console.log('ttc ' + ttc);
+		todayTaskCountShow = ttc;
+		if (ttc != '') {
+			let newCount = parseInt(ttc) + 1;
+			document.cookie = 'todayTaskCount' + '=' + newCount;
+			console.log('increase ' + document.cookie);
+		}
+		//if ttc is null
+		else {
+			console.log('creating cookie'); //if ttc is not then add one
+			var date = new Date();
+			date.setTime(date.getTime() + 1 * 24 * 60 * 60 * 1000);
+			var expires = ';expires=' + date.toUTCString();
+			document.cookie = 'todayTaskCount' + '=' + 0 + expires + ';path=/' + ';SameSite=Lax';
+			console.log('created cookie ' + document.cookie);
+
+			//set cookie
+			if (ttc != '' && ttc != null) {
+				console.log('???');
+			}
+		}
+	};
 </script>
 
 <h3>Welcome {$user?.email ? $user.email : ''}</h3>
-<p>taskcount: {taskCount} and today tasks count {todayTaskCount}</p>
-
+<p>
+	taskcount: {taskCount} and today tasks count
+</p>
+{#if todayTaskCountShow}
+	<p>{todayTaskCountShow}</p>
+{:else}
+	<p>else</p>
+{/if}
 <div class="add-todo">
 	<input type="text" bind:value={newTask} />
 	<button on:click={() => addTodo(newTask)}> Add task </button>
@@ -114,6 +170,8 @@
 <svelte:window on:keypress={handleEnter} />
 
 <Character {taskCount} {todos} />
+
+<button on:click={updateCookie}>display count</button>
 
 <style>
 	.add-todo {
