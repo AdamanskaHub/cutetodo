@@ -8,7 +8,6 @@
 	import Rocket from '../../static/rocket.svelte';
 
 	let newTask = '';
-	let taskCount = 0;
 	let todayTaskCountShow = 0;
 	let today = new Date().toLocaleDateString();
 
@@ -113,7 +112,7 @@
 				return char.substring(name.length, char.length);
 			}
 		}
-		console.log('empty');
+		// console.log('empty');
 		return '';
 	}
 
@@ -123,18 +122,11 @@
 		if (ttc != '') {
 			let newCount = parseInt(ttc) + 1;
 			document.cookie = 'todayTaskCount' + '=' + newCount + ';SameSite=Lax';
-			console.log('increase ' + document.cookie);
+			// console.log('increase ' + document.cookie);
 			todayTaskCountShow = newCount;
 		}
 		//if ttc is null
 		// else {
-		// 	console.log('creating cookie'); //if ttc is not then add one
-		// 	var date = new Date();
-		// 	date.setTime(date.getTime() + 1 * 24 * 60 * 60 * 1000);
-		// 	var expires = ';expires=' + date.toUTCString();
-		// 	document.cookie = 'todayTaskCount' + '=' + 0 + expires + ';path=/' + ';SameSite=Lax';
-		// 	console.log('created cookie ' + document.cookie);
-
 		// 	//set cookie
 		// 	if (ttc != '' && ttc != null) {
 		// 		console.log('???');
@@ -144,12 +136,12 @@
 	const createCookie = () => {
 		var ttc = checkCookie('todayTaskCount');
 		if (ttc == '' || ttc == null) {
-			console.log('creating cookie'); //if ttc is not then add one
+			// console.log('creating cookie'); //if ttc is not then add one
 			var date = new Date();
 			date.setTime(date.getTime() + 1 * 24 * 60 * 60 * 1000);
 			var expires = ';expires=' + date.toUTCString();
 			document.cookie = 'todayTaskCount' + '=' + 0 + expires + ';path=/' + ';SameSite=Lax';
-			console.log('created cookie ' + document.cookie);
+			// console.log('created cookie ' + document.cookie);
 
 			//set cookie
 			if (ttc != '' && ttc != null) {
@@ -159,30 +151,35 @@
 	};
 </script>
 
-<h3>Welcome {$user?.email ? $user.email : ''}</h3>
+<div class="main">
+	<div class="top">
+		<h3>Welcome {$user?.email ? $user.email : ''}</h3>
+		{#if $user.email}
+			<button class="little-link" on:click={logout}>Logout</button>
+		{/if}
+		<p>COMBO {todayTaskCountShow}</p>
+	</div>
 
-<p>today tasks count IS {todayTaskCountShow}</p>
+	<div class="left">
+		<div class="add-todo">
+			<input class="add-input" type="text" bind:value={newTask} />
+			<button class="add-btn" on:click={() => addTodo(newTask)}>
+				<Rocket />
+			</button>
+		</div>
 
-<div class="add-todo">
-	<input type="text" bind:value={newTask} />
-	<button on:click={() => addTodo(newTask)}>
-		<Rocket />
-	</button>
+		{#each todos as todo}
+			<Todo {todo} {updateTodo} {deleteTodo} {today} />
+		{:else}
+			<p>no tasks</p>
+		{/each}
+	</div>
+
+	<div class="right">
+		<Character {todayTaskCountShow} {todos} />
+	</div>
 </div>
-
-{#each todos as todo}
-	<Todo {todo} {updateTodo} {deleteTodo} {today} />
-{:else}
-	<p>no tasks</p>
-{/each}
-
-{#if $user.email}
-	<button class="little-link" on:click={logout}>Logout</button>
-{/if}
-
 <svelte:window on:keypress={handleEnter} />
-
-<Character {taskCount} {todos} />
 
 <style>
 	:root {
@@ -191,16 +188,19 @@
 		--color3: #eefed4;
 		--color4: #f8e396;
 		--color5: #ee7ea0;
+		font-family: 'Poppins', Arial, Helvetica, sans-serif;
+	}
+	:global(*, *:before, *:after) {
+		-webkit-box-sizing: inherit;
+		-moz-box-sizing: inherit;
+		box-sizing: inherit;
 	}
 	:global(body) {
 		min-height: 100vh;
 		background: var(--color2);
 		background-image: linear-gradient(var(--color1), var(--color2));
 	}
-	.add-todo {
-		display: flex;
-		margin-bottom: 40px;
-	}
+
 	:global(.little-link) {
 		background: none;
 		border: none;
@@ -212,5 +212,29 @@
 		border: none;
 		text-decoration: underline;
 		cursor: pointer;
+	}
+	.add-todo {
+		display: flex;
+		align-items: center;
+		margin-bottom: 40px;
+	}
+	.add-input {
+		border: 2px solid #fff;
+		border-radius: 10px;
+		background: rgba(255, 255, 255, 0.4);
+		height: 50px;
+		width: 280px;
+	}
+	.add-btn {
+		background-color: var(--color5);
+		height: 48px;
+		width: 48px;
+		border: none;
+		border-radius: 10px;
+		transform: translateX(-58px);
+		transition: all 0.3s ease-in-out;
+	}
+	.add-btn:hover {
+		background-color: var(--color1);
 	}
 </style>
