@@ -160,7 +160,7 @@
 			{/if}
 		</div>
 
-		<p>{todayTaskCountShow === 0 ? '' : '+' + todayTaskCountShow + 'COMBO'}</p>
+		<p>{todayTaskCountShow === 0 ? '' : '+' + todayTaskCountShow + ' COMBO'}</p>
 	</div>
 
 	<div class="left-right">
@@ -175,7 +175,7 @@
 			{#each todos as todo}
 				<Todo {todo} {updateTodo} {deleteTodo} {today} />
 			{:else}
-				<p>no tasks</p>
+				<p>Add a task</p>
 			{/each}
 		</div>
 
@@ -204,6 +204,7 @@
 		min-height: 100vh;
 		background: var(--color2);
 		background-image: linear-gradient(var(--color1), var(--color2));
+		box-sizing: border-box;
 	}
 
 	:global(.little-link) {
@@ -264,7 +265,7 @@
 		border-radius: 10px;
 		background: rgba(255, 255, 255, 0.4);
 		height: 50px;
-		width: 280px;
+		width: 360px;
 	}
 	.add-btn {
 		background-color: var(--color5);
@@ -272,7 +273,7 @@
 		width: 48px;
 		border: none;
 		border-radius: 10px;
-		transform: translateX(-58px);
+		transform: translateX(-50px);
 		transition: all 0.3s ease-in-out;
 	}
 	.add-btn:hover {
