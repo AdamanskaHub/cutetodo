@@ -160,13 +160,13 @@
 			{/if}
 		</div>
 
-		<p>{todayTaskCountShow === 0 ? '' : '+' + todayTaskCountShow + ' COMBO'}</p>
+		<p class="combo">{todayTaskCountShow === 0 ? '' : '+' + todayTaskCountShow + ' COMBO'}</p>
 	</div>
 
 	<div class="left-right">
 		<div class="left">
 			<div class="add-todo">
-				<input class="add-input" type="text" bind:value={newTask} />
+				<input class="add-input" type="text" bind:value={newTask} placeholder="Add a task" />
 				<button class="add-btn" on:click={() => addTodo(newTask)}>
 					<Rocket />
 				</button>
@@ -235,6 +235,9 @@
 		-moz-background-clip: text;
 		-moz-text-fill-color: transparent;
 	}
+	.combo {
+		height: 110px;
+	}
 	.login {
 		display: flex;
 		margin-bottom: 40px;
@@ -266,10 +269,13 @@
 		background: rgba(255, 255, 255, 0.4);
 		height: 50px;
 		width: 360px;
+		padding: 10px;
+		font-size: 24px;
+		color: #fff;
 	}
 	.add-btn {
 		background-color: var(--color5);
-		height: 48px;
+		height: 46px;
 		width: 48px;
 		border: none;
 		border-radius: 10px;
