@@ -153,30 +153,35 @@
 
 <div class="main">
 	<div class="top">
-		<h3>Welcome {$user?.email ? $user.email : ''}</h3>
-		{#if $user.email}
-			<button class="little-link" on:click={logout}>Logout</button>
-		{/if}
-		<p>COMBO {todayTaskCountShow}</p>
-	</div>
-
-	<div class="left">
-		<div class="add-todo">
-			<input class="add-input" type="text" bind:value={newTask} />
-			<button class="add-btn" on:click={() => addTodo(newTask)}>
-				<Rocket />
-			</button>
+		<div class="login">
+			<span>{$user?.email ? $user.email : ''}</span>
+			{#if $user.email}
+				<button class="little-link" on:click={logout}>Logout</button>
+			{/if}
 		</div>
 
-		{#each todos as todo}
-			<Todo {todo} {updateTodo} {deleteTodo} {today} />
-		{:else}
-			<p>no tasks</p>
-		{/each}
+		<p>{todayTaskCountShow === 0 ? '' : '+' + todayTaskCountShow + 'COMBO'}</p>
 	</div>
 
-	<div class="right">
-		<Character {todayTaskCountShow} {todos} />
+	<div class="left-right">
+		<div class="left">
+			<div class="add-todo">
+				<input class="add-input" type="text" bind:value={newTask} />
+				<button class="add-btn" on:click={() => addTodo(newTask)}>
+					<Rocket />
+				</button>
+			</div>
+
+			{#each todos as todo}
+				<Todo {todo} {updateTodo} {deleteTodo} {today} />
+			{:else}
+				<p>no tasks</p>
+			{/each}
+		</div>
+
+		<div class="right">
+			<Character {todayTaskCountShow} {todos} />
+		</div>
 	</div>
 </div>
 <svelte:window on:keypress={handleEnter} />
@@ -206,6 +211,42 @@
 		border: none;
 		text-decoration: underline;
 		cursor: pointer;
+	}
+	.main {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.top {
+	}
+	.top > p {
+		font-family: 'Kalam', Arial, Helvetica, sans-serif;
+		font-weight: bold;
+		font-size: 64px;
+		margin: 0;
+		-webkit-text-stroke: 2px #fff;
+		background-color: var(--color5);
+		background-image: linear-gradient(35deg, var(--color4), var(--color5));
+		background-size: 100%;
+		background-repeat: repeat;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		-moz-background-clip: text;
+		-moz-text-fill-color: transparent;
+	}
+	.login {
+		display: flex;
+		margin-bottom: 40px;
+		font-size: 12px;
+	}
+	.left-right {
+		display: flex;
+	}
+	.left {
+		margin-right: 10px;
+	}
+	.right {
+		margin-left: 10px;
 	}
 	.little-link {
 		background: none;
