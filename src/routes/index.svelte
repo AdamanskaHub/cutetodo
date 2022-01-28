@@ -154,7 +154,7 @@
 <div class="main">
 	<div class="top">
 		<div class="login">
-			<span>{$user?.email ? $user.email : ''}</span>
+			<!-- <span>{$user?.email ? $user.email : ''}</span> -->
 			{#if $user.email}
 				<button class="little-link" on:click={logout}>Logout</button>
 			{/if}
@@ -261,7 +261,7 @@
 	.add-todo {
 		display: flex;
 		align-items: center;
-		margin-bottom: 40px;
+		margin-bottom: 20px;
 	}
 	.add-input {
 		border: 2px solid #fff;
