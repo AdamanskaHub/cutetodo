@@ -9,10 +9,10 @@
 	// console.log(randomize(lv1));
 </script>
 
+<p>This is today task {todayTaskCountShow}</p>
 {#if todos[0]}
 	<p>date of 1st todo {todos[0].date}</p>
 {/if}
-
 {#if todayTaskCountShow === 0}
 	<p>{randomize(lv0)}</p>
 {:else if todayTaskCountShow === 1}

@@ -47,7 +47,9 @@
 			const { data, error } = await supabase
 				.from('todos')
 				.insert([{ task: newTask, isComplete: false, user_id: $user.id, date: today }]);
+			reorder();
 			await getallTodos();
+			reorder();
 
 			newTask = '';
 		} catch (err) {
@@ -61,6 +63,8 @@
 				.from('todos')
 				.update({ task: todo.task, isComplete: todo.isComplete })
 				.eq('id', todo.id);
+			reorder();
+
 			await getallTodos();
 
 			updateCookie();
@@ -124,6 +128,7 @@
 			document.cookie = 'todayTaskCount' + '=' + newCount + ';SameSite=Lax';
 			// console.log('increase ' + document.cookie);
 			todayTaskCountShow = newCount;
+			console.log(todayTaskCountShow, newCount);
 		}
 		//if ttc is null
 		// else {
@@ -138,11 +143,15 @@
 		if (ttc == '' || ttc == null) {
 			// console.log('creating cookie'); //if ttc is not then add one
 			var date = new Date();
-			date.setTime(date.getTime() + 1 * 24 * 60 * 60 * 1000);
+			// date = date.setTime(date.getTime() + 1 * 24 * 60 * 60 * 1000);
+			date.setDate(date.getDate() + 1);
+			date.setHours(2);
+			date.setMinutes(0);
+			console.log('date -- ' + date);
 			var expires = ';expires=' + date.toUTCString();
 			document.cookie = 'todayTaskCount' + '=' + 0 + expires + ';path=/' + ';SameSite=Lax';
+			todayTaskCountShow = 0;
 			// console.log('created cookie ' + document.cookie);
-
 			//set cookie
 			if (ttc != '' && ttc != null) {
 				console.log('???');
