@@ -249,6 +249,9 @@
 	}
 	.login {
 		display: flex;
+		justify-content: end;
+		width: 90vw;
+
 		margin-bottom: 40px;
 		font-size: 12px;
 	}
