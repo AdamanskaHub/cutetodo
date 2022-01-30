@@ -160,7 +160,19 @@
 	};
 </script>
 
-<div class="main">
+<div
+	class={todayTaskCountShow === 0
+		? 'main gradient0'
+		: todayTaskCountShow === 1
+		? 'main gradient1'
+		: todayTaskCountShow === 2
+		? 'main gradient2'
+		: todayTaskCountShow === 3
+		? 'main gradient3'
+		: todayTaskCountShow === 4
+		? 'main	gradient4'
+		: 'main gradient5'}
+>
 	<div class="top">
 		<div class="login">
 			<!-- <span>{$user?.email ? $user.email : ''}</span> -->
@@ -169,7 +181,14 @@
 			{/if}
 		</div>
 
-		<p class="combo">{todayTaskCountShow === 0 ? '' : '+' + todayTaskCountShow + ' COMBO'}</p>
+		<p class="combo-box">
+			{#if todayTaskCountShow !== 0}
+				<span class="combo">
+					+{todayTaskCountShow}
+				</span>
+				<span class="combo">Combo</span>
+			{/if}
+		</p>
 	</div>
 
 	<div class="left-right">
@@ -195,6 +214,8 @@
 </div>
 <svelte:window on:keypress={handleEnter} />
 
+passing conditional in css
+
 <style>
 	:root {
 		--color1: #74b29d;
@@ -202,6 +223,8 @@
 		--color3: #eefed4;
 		--color4: #f8e396;
 		--color5: #ee7ea0;
+		--color6: #bd2d40;
+		--color7: #4a1066;
 		font-family: 'Poppins', Arial, Helvetica, sans-serif;
 	}
 	:global(*, *:before, *:after) {
@@ -210,6 +233,7 @@
 		box-sizing: inherit;
 	}
 	:global(body) {
+		margin: 0;
 		min-height: 100vh;
 		background: var(--color2);
 		background-image: linear-gradient(var(--color1), var(--color2));
@@ -226,10 +250,37 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		min-height: 100vh;
+		transition: all 0.5s ease-in-out;
+		background-image: linear-gradient(var(--color1), var(--color2));
+	}
+	.gradient0 {
+		background-image: linear-gradient(var(--color1), var(--color2));
+	}
+	.gradient1 {
+		background-image: linear-gradient(var(--color2), var(--color3));
+	}
+	.gradient2 {
+		background-image: linear-gradient(var(--color3), var(--color4));
+	}
+	.gradient3 {
+		background-image: linear-gradient(var(--color4), var(--color5));
+	}
+	.gradient4 {
+		background-image: linear-gradient(var(--color5), var(--color6));
+	}
+	.gradient5 {
+		background-image: linear-gradient(var(--color6), var(--color7));
 	}
 	.top {
 	}
-	.top > p {
+	.combo-box {
+		height: 110px;
+		text-align: center;
+	}
+	.combo {
+		transform: rotate(-10deg);
+		display: inline-block;
 		font-family: 'Kalam', Arial, Helvetica, sans-serif;
 		font-weight: bold;
 		font-size: 64px;
@@ -243,9 +294,6 @@
 		-webkit-text-fill-color: transparent;
 		-moz-background-clip: text;
 		-moz-text-fill-color: transparent;
-	}
-	.combo {
-		height: 110px;
 	}
 	.login {
 		display: flex;
@@ -283,7 +331,7 @@
 		width: 360px;
 		padding: 10px;
 		font-size: 24px;
-		color: #fff;
+		color: #333;
 	}
 	.add-btn {
 		background-color: var(--color5);

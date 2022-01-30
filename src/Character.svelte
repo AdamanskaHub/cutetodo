@@ -5,15 +5,20 @@
 	let lv1 = ['One done', 'Good start'];
 	let lv2 = ['Two done', 'Keep going'];
 	let lv3 = ['Three done', "You're on a roll!"];
+	let lv4 = ['One done', 'Good start'];
+	let lv5 = ['Two done', 'Keep going'];
+	let lv6 = ['Three done', "You're on a roll!"];
+	let lv7 = ['One done', 'Good start'];
+	let lv8 = ['Two done', 'Keep going'];
+	let lv9 = ['Three done', "You're on a roll!"];
+	let lv10 = ['One done', 'Good start'];
+
 	const randomize = (arr) => arr[Math.floor(Math.random() * arr.length)];
 	// console.log(randomize(lv1));
 </script>
 
 <p>This is today task {todayTaskCountShow}</p>
 <div class="bubble">
-	{#if todos[0]}
-		<p>date of 1st todo {todos[0].date}</p>
-	{/if}
 	{#if todayTaskCountShow === 0}
 		<p>{randomize(lv0)}</p>
 	{:else if todayTaskCountShow === 1}
@@ -23,19 +28,19 @@
 	{:else if todayTaskCountShow === 3}
 		<p>{randomize(lv3)}</p>
 	{:else if todayTaskCountShow === 4}
-		<p>task 1</p>
+		<p>{randomize(lv4)}</p>
 	{:else if todayTaskCountShow === 5}
-		<p>task 1</p>
+		<p>{randomize(lv5)}</p>
 	{:else if todayTaskCountShow === 6}
-		<p>task 1</p>
+		<p>{randomize(lv6)}</p>
 	{:else if todayTaskCountShow === 7}
-		<p>task 1</p>
+		<p>{randomize(lv7)}</p>
 	{:else if todayTaskCountShow === 8}
-		<p>task 1</p>
+		<p>{randomize(lv8)}</p>
 	{:else if todayTaskCountShow === 9}
-		<p>task 1</p>
+		<p>{randomize(lv9)}</p>
 	{:else if todayTaskCountShow > 9}
-		<p>task 1</p>
+		<p>{randomize(lv10)}</p>
 	{:else}
 		<p>no condition</p>
 	{/if}
